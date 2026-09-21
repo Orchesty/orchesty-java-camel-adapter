@@ -1,0 +1,24 @@
+apiVersion: camel.apache.org/v1
+kind: Kamelet
+metadata:
+  name: uppercase-action
+  labels:
+    camel.apache.org/kamelet.type: "action"
+spec:
+  definition:
+    title: "Uppercase Action"
+    description: "Uppercases the message body and appends a configured suffix. Self-contained (no external services), used to exercise the Kamelet path offline."
+    properties:
+      suffix:
+        title: "Suffix"
+        description: "Appended to the uppercased body."
+        type: string
+        default: ""
+  template:
+    from:
+      uri: "kamelet:source"
+      steps:
+        - setBody:
+            expression:
+              simple:
+                expression: "${body.toUpperCase()}{{suffix}}"

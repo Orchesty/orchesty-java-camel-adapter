@@ -1,0 +1,21 @@
+runtime: camel
+kind: source
+component: file
+application:
+  name: camel-file-source
+  publicName: "Camel File Source"
+  description: "Poll a directory for files and return them as a batch"
+  authForm:
+    - directoryName
+    - delete
+    - recursive
+connector:
+  name: camel-file-source-poll
+output:
+  mode: chunk
+  chunkSize: 25
+  batchSize: 250
+retry:
+  repeatOnException: true
+  intervalSeconds: 60
+  maxHops: 5

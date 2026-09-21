@@ -1,0 +1,39 @@
+apiVersion: camel.apache.org/v1
+kind: Kamelet
+metadata:
+  name: rich-config
+spec:
+  definition:
+    title: "Rich Config"
+    description: "Exercises every field-type mapping used by the KameletFormGenerator."
+    required:
+      - apiKey
+    properties:
+      apiKey:
+        title: "API Key"
+        description: "Secret credential."
+        type: string
+        format: password
+      pageSize:
+        title: "Page Size"
+        description: "How many rows per page."
+        type: integer
+        default: 100
+      mode:
+        title: "Mode"
+        description: "Traversal mode."
+        type: string
+        enum: ["ROWS", "COLUMNS"]
+        default: "ROWS"
+      label:
+        title: "Label"
+        description: "Plain text label."
+        type: string
+  template:
+    from:
+      uri: "kamelet:source"
+      steps:
+        - setBody:
+            expression:
+              constant:
+                expression: "noop"

@@ -1,0 +1,16 @@
+services:
+    adapter:
+        image: java-camel-adapter:tag
+        build: ./docker
+        pull_policy: build
+        init: true
+        user: ${DEV_UID}:${DEV_GID}
+        working_dir: /var/www
+        volumes:
+            - ./:/var/www
+        environment:
+            MAVEN_CENTRAL_USERNAME: ${MAVEN_CENTRAL_USERNAME:-}
+            MAVEN_CENTRAL_PASSWORD: ${MAVEN_CENTRAL_PASSWORD:-}
+            MAVEN_GPG_KEY_BASE64: ${MAVEN_GPG_KEY_BASE64:-}
+            MAVEN_GPG_PASSPHRASE: ${MAVEN_GPG_PASSPHRASE:-}
+        command: sleep infinity

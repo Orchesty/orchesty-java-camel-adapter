@@ -1,0 +1,28 @@
+apiVersion: camel.apache.org/v1
+kind: Kamelet
+metadata:
+  name: token-action
+  labels:
+    camel.apache.org/kamelet.type: "action"
+spec:
+  definition:
+    title: "Token Action"
+    description: "Returns the client id and access token it was configured with. Used to check credential mapping offline."
+    properties:
+      clientId:
+        title: "Client ID"
+        type: string
+        default: ""
+      accessToken:
+        title: "Access Token"
+        type: string
+        format: password
+        default: ""
+  template:
+    from:
+      uri: "kamelet:source"
+      steps:
+        - setBody:
+            expression:
+              constant:
+                expression: "{{clientId}}:{{accessToken}}"

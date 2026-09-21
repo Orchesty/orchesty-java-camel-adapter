@@ -1,0 +1,22 @@
+apiVersion: camel.apache.org/v1
+kind: Kamelet
+metadata:
+  name: list-sink
+  labels:
+    camel.apache.org/kamelet.type: "sink"
+spec:
+  definition:
+    title: "List Sink"
+    description: "Writes the body through a recipient list. Tests that a parameter in a list of endpoint URIs cannot add another endpoint."
+    required:
+      - directory
+    properties:
+      directory:
+        title: "Directory"
+        type: string
+  template:
+    from:
+      uri: "kamelet:source"
+      steps:
+        - recipientList:
+            simple: "file:{{directory}}?fileName=list.txt"

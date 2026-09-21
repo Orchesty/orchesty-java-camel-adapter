@@ -1,0 +1,20 @@
+runtime: camel
+component: sftp
+application:
+  name: camel-sftp
+  publicName: "Camel SFTP"
+  description: "Upload files over SFTP using Apache Camel"
+  authForm:
+    - host
+    - port
+    - username
+    - password
+    - directoryName
+connector:
+  name: camel-sftp-upload
+retry:
+  success: ["<300"]
+  repeat: [408, 429, ">=500"]
+  intervalSeconds: 120
+  maxHops: 5
+  repeatOnException: true

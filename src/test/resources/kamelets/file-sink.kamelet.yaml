@@ -1,0 +1,35 @@
+apiVersion: camel.apache.org/v1
+kind: Kamelet
+metadata:
+  name: file-sink
+  labels:
+    camel.apache.org/kamelet.type: "sink"
+spec:
+  definition:
+    title: "File Sink"
+    description: "Writes the body to a file. Places parameters in an endpoint URI, to test that their values cannot add endpoint options."
+    required:
+      - directory
+      - fileName
+    properties:
+      directory:
+        title: "Directory"
+        type: string
+      fileName:
+        title: "File name"
+        type: string
+      note:
+        title: "Note"
+        description: "Prepended to the body (used only in an expression)."
+        type: string
+        default: ""
+  template:
+    from:
+      uri: "kamelet:source"
+      steps:
+        - setBody:
+            simple: "{{note}}${body}"
+        - to:
+            uri: "file:{{directory}}"
+            parameters:
+              fileName: "{{fileName}}"
